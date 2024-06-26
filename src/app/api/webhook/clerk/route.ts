@@ -3,7 +3,7 @@ import { prisma } from '@/app/db/prisma'
 import { NextResponse } from 'next/server'
 export async function POST(request: Request) {
   const payload: WebhookEvent = await request.json()
-  console.log('pay', payload)
+  // console.log('pay', payload)
   if (payload.type === 'user.created') {
     const { id, first_name, last_name, image_url } = payload.data
 
