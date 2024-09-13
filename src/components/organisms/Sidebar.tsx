@@ -2,7 +2,8 @@
 
 import { SignOutButton, useAuth } from '@clerk/nextjs'
 import { Lock, LucideIcon, Menu, ScreenShare, User } from 'lucide-react'
-import { Button, buttonVariants } from '../atoms/button'
+import { Button } from '../atoms/button'
+import { buttonVariants } from '@/utils/styles/variants'
 import Link from 'next/link'
 import { Sheet } from '../atoms/sheet'
 import {
