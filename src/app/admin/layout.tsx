@@ -4,8 +4,8 @@ import { auth } from '@clerk/nextjs/server'
 import Link from 'next/link'
 import { SimpleSidebar } from '@/components/molecules/SimpleSidebar'
 
-import { trpcServer } from '@/trpc/clients/server'
 import { AdminMenu } from '@/components/organisms/AdminMenu'
+import { trpcServer } from '@/trpc/clients/server'
 
 export default async function Layout({
   children,

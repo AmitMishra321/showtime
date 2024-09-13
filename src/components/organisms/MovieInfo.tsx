@@ -20,7 +20,7 @@ export const MovieInfo = ({
         <div>{movie.director}</div>
         <div className="text-xs text-grey-500 mt-2">{movie.genre}</div>
         <div>{movie.duration}</div>
-        <div>{movie.releaseDate}</div>
+        <div>{movie.releaseDate.toString()}</div>
       </div>
     </div>
   )
