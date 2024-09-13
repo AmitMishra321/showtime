@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
+    "preinstall": "npx only-allow pnpm",
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint --dir src",
@@ -13,7 +14,7 @@
     "format:write": "pnpm format --write",
     "validate": "pnpm format:write && pnpm lint && pnpm tsc && pnpm build",
     "prepare": "husky install",
-    "preinstall": "npx only-allow pnpm"
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.5.2",
@@ -44,6 +45,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.10",
+    "husky": "^8.0.0",
     "postcss": "^8",
     "prettier": "^3.3.3",
     "prisma": "^5.19.1",
