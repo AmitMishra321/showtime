@@ -8,7 +8,7 @@ export const schemaCreateMovie = z.object({
   title: z.string().min(1, { message: 'Movie name is required' }),
   director: z.string().min(1, { message: 'Director name is required' }),
   duration: z.number({ invalid_type_error: 'Duration is required' }),
-  releaseDate: z.string().date(),
+  releaseDate: z.string(),
   posterUrl: z.any(),
 })
 
