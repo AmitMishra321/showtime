@@ -42,7 +42,7 @@ export const CreateMovie = ({}: CreateMovieProps) => {
           async ({ director, duration, genre, releaseDate, title }) => {
             const uploadedImages = await uploadImages(posterUrl)
 
-            await createMovie({
+            const movie = await createMovie({
               director,
               duration,
               genre,
@@ -50,10 +50,12 @@ export const CreateMovie = ({}: CreateMovieProps) => {
               title,
               posterUrl: uploadedImages[0],
             })
-            reset()
-            toast({ title: 'Movie created successfully.' })
-            revalidatePath('admins/movies')
-            replace('/admin/movies')
+            if (movie) {
+              reset()
+              toast({ title: 'Movie created successfully.' })
+              revalidatePath('admins/movies')
+              replace('/admin/movies')
+            }
           },
         )}
       >

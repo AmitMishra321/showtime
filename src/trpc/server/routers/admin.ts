@@ -5,7 +5,7 @@ export const adminRouter = CreateTRPCRouter({
     return ctx.db.admin.findMany()
   }),
   adminMe: protectedProcedure().query(({ ctx }) => {
-    // const id = ctx.session.userId
+    const id = ctx.session.userId
     // if (!id)
     //   return ctx.db.admin.findUnique({
     //     where: {

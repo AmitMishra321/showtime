@@ -18,6 +18,7 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   name      String
+  email     String    @unique
   image     String?
   Admin     Admin?
   Manager   Manager?
@@ -136,10 +137,10 @@ model Booking {
 }
 
 model Ticket {
-  id   Int    @id @default(autoincrement())
-  uid  String
-  User User   @relation(fields: [uid], references: [id])
-  qrCode String?
+  id       Int       @id @default(autoincrement())
+  uid      String
+  User     User      @relation(fields: [uid], references: [id])
+  qrCode   String?
   Bookings Booking[]
 }
 
