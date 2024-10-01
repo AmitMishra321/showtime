@@ -18,7 +18,7 @@ export default async function Layout({
     return <Link href="/api/auth/signin">Login</Link>
   }
 
-  const adminMe = await trpcServer.admin.adminMe.query()
+  const adminMe = await trpcServer.admins.adminMe.query()
 
   if (!adminMe?.id) {
     return <TellThem uid={userId} role="admin" />

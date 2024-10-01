@@ -1,5 +1,15 @@
-import React from 'react'
+import { StatCard } from '@/components/organisms/StatCard'
+import { trpcServer } from '@/trpc/clients/server'
 
-export default function AdminPage() {
-  return <div>This is Admin Page</div>
+export default async function AdminPage() {
+  const dashboard = await trpcServer.admins.dashboard.query()
+  return (
+    <main>
+      {Object.entries(dashboard).map(([key, value]) => (
+        <StatCard key={key} title={key}>
+          {value}
+        </StatCard>
+      ))}
+    </main>
+  )
 }
