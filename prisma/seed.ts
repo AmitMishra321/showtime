@@ -6,7 +6,7 @@ async function main() {
     data: {
       id: 'user_2iPFHdpX8N7ICQvL8xHCJxSPfmI',
       name: 'John Doe',
-      email: 'amitmishra25102@gmail.com',
+
       createdAt: new Date(),
       updatedAt: new Date(),
       Admin: {

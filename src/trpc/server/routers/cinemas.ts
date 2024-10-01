@@ -1,6 +1,5 @@
 import { schemaCreateCinema } from '@/forms/createCinema'
 import { publicProcedure, CreateTRPCRouter, protectedProcedure } from '..'
-import { create } from 'domain'
 
 export const cinemasRouter = CreateTRPCRouter({
   cinemas: publicProcedure.query(({ ctx }) => {
@@ -14,7 +13,7 @@ export const cinemasRouter = CreateTRPCRouter({
     .input(schemaCreateCinema)
     .mutation(({ ctx, input }) => {
       const { address, cinemaName, screens, managerId } = input
-      console.log('first', screens)
+
       const screenWithSeats = screens.map((screen, index) => {
         const { rows, columns, ...screenData } = screen
         const seats = []
@@ -29,11 +28,11 @@ export const cinemasRouter = CreateTRPCRouter({
           number: index,
         }
       })
-      console.log('second', screenWithSeats)
 
       return ctx.db.cinema.create({
         data: {
           name: cinemaName,
+          Address: { create: address },
           Managers: {
             connectOrCreate: {
               create: { id: managerId },

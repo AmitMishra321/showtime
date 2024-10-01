@@ -14,16 +14,16 @@ datasource db {
 }
 
 model User {
-  id        String    @id
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id        String   @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   name      String
-  email     String    @unique
-  image     String?
-  Admin     Admin?
-  Manager   Manager?
-  Booking   Booking[]
-  Ticket    Ticket[]
+
+  image   String?
+  Admin   Admin?
+  Manager Manager?
+  Booking Booking[]
+  Ticket  Ticket[]
 }
 
 model Admin {

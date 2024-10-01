@@ -11,15 +11,21 @@ import { useRouter } from 'next/navigation'
 import { revalidatePath } from '@/utils/actions/revalidatePath'
 import { ProjectionType, SoundSystemType } from '@prisma/client'
 import { HtmlSelect } from '../atoms/select'
-import { Plus } from 'lucide-react'
+import { Plus, RectangleHorizontal } from 'lucide-react'
 import { SimpleAccordion } from '../molecules/SimpleAccordion'
 import { Square } from '../organisms/ScreenUtils'
+import { Panel } from '../organisms/Map/Panel'
+import { CenterOfMap, DefaultZoomControls } from '../organisms/Map/ZoomControls'
+import { Map } from '@/components/organisms/Map/Map'
+import { Marker } from '../organisms/Map/MapMarker'
+import { SearchPlace } from '../organisms/SearchPlace'
 export const CreateCinema = () => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
+    setValue,
   } = useFormContext<FormTypeCreateCinema>()
   const { mutateAsync: createCinema, isPending } =
     trpcClient.cinemas.createCinema.useMutation()
@@ -27,7 +33,7 @@ export const CreateCinema = () => {
   const { toast } = useToast()
   const { replace } = useRouter()
   return (
-    <div className="">
+    <div className="grid grid-cols-2 gap-4">
       <form
         onSubmit={handleSubmit(async (data) => {
           console.log(data)
@@ -54,6 +60,22 @@ export const CreateCinema = () => {
           Create Cinema
         </Button>
       </form>
+      <Map>
+        <MapMaker />
+        <Panel position="left-top">
+          <SearchPlace />
+          <DefaultZoomControls>
+            <CenterOfMap
+              onClick={(lating) => {
+                const lat = parseFloat(lating.lat.toFixed(6))
+                const lng = parseFloat(lating.lng.toFixed(6))
+                setValue('address.lat', lat, { shouldValidate: true })
+                setValue('address.lng', lng, { shouldValidate: true })
+              }}
+            />
+          </DefaultZoomControls>
+        </Panel>
+      </Map>
     </div>
   )
 }
@@ -238,3 +260,30 @@ export const CurvedScreen = ({ width = 300, height = 10 }) => {
     </svg>
   )
 }
+
+const MapMaker = () => {
+  const { address } = useWatch<FormTypeCreateCinema>()
+  const { setValue } = useFormContext<FormTypeCreateCinema>()
+
+  return (
+    <Marker
+      pitchAlignment="auto"
+      longitude={address?.lng || 0}
+      latitude={address?.lat || 0}
+      draggable
+      onDragEnd={({ lngLat }) => {
+        const { lat, lng } = lngLat
+        setValue('address.lat', lat || 0)
+        setValue('address.lng', lng || 0)
+      }}
+    >
+      <BrandIcon />
+    </Marker>
+  )
+}
+
+export const BrandIcon = () => (
+  <div className="" style={{ perspective: '200px' }}>
+    <RectangleHorizontal style={{ transform: 'rotateX(22deg)' }} />
+  </div>
+)

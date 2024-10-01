@@ -9,12 +9,12 @@ export const showtimesRoutes = CreateTRPCRouter({
     .query(async ({ ctx, input: { showtimeId } }) => {
       const showtime = await ctx.db.showtime.findUnique({
         where: { id: showtimeId },
-        include: { Screen: { include: { Seats: true } } },
+        include: { Screen: { include: { seats: true } } },
       })
 
       // Add booked information to each seat
       const seatsWithBookingInfo = await Promise.all(
-        showtime?.Screen.Seats.map(async (seat) => {
+        showtime?.Screen.seats.map(async (seat) => {
           const booking = await ctx.db.booking.findUnique({
             where: {
               uniqueSeatShowtime: {
@@ -116,10 +116,10 @@ export const showtimesRoutes = CreateTRPCRouter({
     .input(schemaCreateShowtime)
     .mutation(async ({ ctx, input }) => {
       const { movieId, screenId, showtimes } = input
-      const screen = await ctx.db.screen.findUnique({
-        where: { id: screenId },
-        include: { Cinema: { include: { Managers: true } } },
-      })
+      // const screen = await ctx.db.screen.findUnique({
+      //   where: { id: screenId },
+      //   include: { cinema: { include: { Managers: true } } },
+      // })
 
       const showtimesInput: Prisma.ShowtimeCreateManyInput[] = showtimes.map(
         (showtime) => ({

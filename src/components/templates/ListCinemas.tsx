@@ -59,7 +59,7 @@ export const CinemaInfo = ({
 }
 
 export const ShowScreenShowtimes = ({ screenId }: { screenId: number }) => {
-  const { data, isLoading } = trpcClient.showtimes.showtimesPerScreen.useQuery({
+  const { data } = trpcClient.showtimes.showtimesPerScreen.useQuery({
     screenId,
   })
 

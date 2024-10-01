@@ -6,6 +6,7 @@ import { TRPCReactProvider } from '@/trpc/clients/client'
 import { Container } from '@/components/atoms/container'
 import { Toaster } from '@/components/molecules/Toaster/toaster'
 import { Navbar } from '@/components/organisms/Navbar'
+import 'mapbox-gl/dist/mapbox-gl.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
