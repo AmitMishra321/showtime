@@ -45,11 +45,11 @@ export const CinemaInfo = ({
           <div key={screen.id}>
             <div className="font-light text-xl ">Screen {screen.number}</div>
 
-            {screen.showtimes.length === 0 ? (
-              <AlertBox className="bg-gray-200">
+            <AlertBox className="bg-gray-200">
+              {screen.showtimes.length === 0 ? (
                 <div className="text-gray-600 text-sm">No shows found.</div>
-              </AlertBox>
-            ) : null}
+              ) : null}
+            </AlertBox>
             <ShowScreenShowtimes screenId={screen.id} />
           </div>
         ))}

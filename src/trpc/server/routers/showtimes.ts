@@ -1,6 +1,7 @@
 import { CreateTRPCRouter, protectedProcedure, publicProcedure } from '..'
 import { schemaCreateShowtime } from '@/forms/createShowtime'
 import { Prisma } from '@prisma/client'
+import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 
 export const showtimesRoutes = CreateTRPCRouter({
@@ -12,7 +13,6 @@ export const showtimesRoutes = CreateTRPCRouter({
         include: { Screen: { include: { seats: true } } },
       })
 
-      // Add booked information to each seat
       const seatsWithBookingInfo = await Promise.all(
         showtime?.Screen.seats.map(async (seat) => {
           const booking = await ctx.db.booking.findUnique({
@@ -116,11 +116,20 @@ export const showtimesRoutes = CreateTRPCRouter({
     .input(schemaCreateShowtime)
     .mutation(async ({ ctx, input }) => {
       const { movieId, screenId, showtimes } = input
-      // const screen = await ctx.db.screen.findUnique({
-      //   where: { id: screenId },
-      //   include: { cinema: { include: { Managers: true } } },
-      // })
 
+      const [screen, movie] = await Promise.all([
+        ctx.db.screen.findUnique({
+          where: { id: screenId },
+          include: { cinema: { include: { Managers: true } } },
+        }),
+        ctx.db.movie.findUnique({ where: { id: movieId } }),
+      ])
+      if (!screen || !movie) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Screen not found.',
+        })
+      }
       const showtimesInput: Prisma.ShowtimeCreateManyInput[] = showtimes.map(
         (showtime) => ({
           screenId,
@@ -133,6 +142,7 @@ export const showtimesRoutes = CreateTRPCRouter({
       })
     }),
 })
+
 export const reduceShowtimeByDate = <T extends { startTime: Date }>(
   rawShowtimes: T[],
 ) => {

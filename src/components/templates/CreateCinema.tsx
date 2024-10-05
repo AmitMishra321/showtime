@@ -56,7 +56,7 @@ export const CreateCinema = () => {
           <TextArea placeholder="Address" {...register('address.address')} />
         </Label>
         <AddScreens />
-        <Button type="submit" loading={isPending}>
+        <Button type="submit" variant="destructive" loading={isPending}>
           Create Cinema
         </Button>
       </form>
@@ -283,7 +283,7 @@ const MapMaker = () => {
 }
 
 export const BrandIcon = () => (
-  <div className="" style={{ perspective: '200px' }}>
+  <div style={{ perspective: '200px' }}>
     <RectangleHorizontal style={{ transform: 'rotateX(22deg)' }} />
   </div>
 )

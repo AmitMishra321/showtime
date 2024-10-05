@@ -1,10 +1,11 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { storage } from '../config/firebase'
 import { catchError, debounceTime, EMPTY, Subject, tap } from 'rxjs'
+import { trpcClient } from '@/trpc/clients/client'
 
 export const useDialogState = (defaultValue = false) => {
   const [open, setOpen] = useState(defaultValue)
@@ -124,4 +125,54 @@ export const useSearchLocation = () => {
   }, [debouncedSearchText, setLocationInfo])
 
   return { loading, setLoading, searchText, setSearchText, locationInfo }
+}
+
+export const useKeypress = (keys: string[], action?: Function) => {
+  useEffect(() => {
+    const onKeyup = (e: { key: any }) => {
+      if (keys.includes(e.key) && action) action()
+    }
+    window.addEventListener('keyup', onKeyup)
+    return () => window.removeEventListener('keyup', onKeyup)
+  }, [action, keys])
+}
+
+export const useHandleSearch = () => {
+  const searchParams = useSearchParams()
+  const params = new URLSearchParams(searchParams)
+
+  const pathname = usePathname()
+
+  const router = useRouter()
+
+  const addParams = (key: string, value: string | number) => {
+    params.set(key, value.toString())
+
+    router.replace(`${pathname}?${params}`)
+  }
+
+  const deleteParam = (key: string) => {
+    params.delete(key)
+  }
+  const deleteAll = () => {
+    router.replace('/')
+
+    console.log('deleteAll.params', params.toString())
+  }
+  return { params, addParams, deleteAll, deleteParam }
+}
+
+export function useGetCinema({ cinemaId }: { cinemaId: string | null }) {
+  const { data, refetch } = trpcClient.cinemas.cinema.useQuery(
+    { id: +(cinemaId || '') },
+    { enabled: false },
+  )
+
+  useEffect(() => {
+    if (cinemaId) {
+      refetch()
+    }
+  }, [refetch, cinemaId])
+
+  return { cinema: data }
 }

@@ -117,7 +117,11 @@ export const CreateMovie = ({}: CreateMovieProps) => {
             {percent > 0 ? <ProgressBar value={percent} /> : null}
           </Label>
         </div>
-        <Button loading={isPending || uploading} type="submit">
+        <Button
+          variant="destructive"
+          loading={isPending || uploading}
+          type="submit"
+        >
           Submit
         </Button>
       </form>

@@ -8,10 +8,12 @@ export function SimpleSidebar({ children }: BaseComponent) {
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="ghost">
-            <Menu className="w-5 h-5" />
+            <Menu className="w-5 h-5 text-red-500" />
           </Button>
         </SheetTrigger>
-        <SheetContent side="left">{children}</SheetContent>
+        <SheetContent side="left" className="text-red-500">
+          {children}
+        </SheetContent>
       </Sheet>
     </div>
   )

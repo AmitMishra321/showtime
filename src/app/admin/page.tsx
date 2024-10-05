@@ -4,12 +4,22 @@ import { trpcServer } from '@/trpc/clients/server'
 export default async function AdminPage() {
   const dashboard = await trpcServer.admins.dashboard.query()
   return (
-    <main>
-      {Object.entries(dashboard).map(([key, value]) => (
-        <StatCard key={key} title={key}>
-          {value}
-        </StatCard>
-      ))}
+    <main className="flex flex-col gap-3">
+      <StatCard href={'/admin/admins'} title={'Admins'}>
+        {dashboard.admin}
+      </StatCard>
+      <StatCard href={'/admin/managers'} title={'Managers'}>
+        {dashboard.manager}
+      </StatCard>
+      <StatCard href={'/admin/users'} title={'Users'}>
+        {dashboard.user}
+      </StatCard>
+      <StatCard href={'/admin/cinemas'} title={'Cinemas'}>
+        {dashboard.cinema}
+      </StatCard>
+      <StatCard href={'/admin/movies'} title={'Movies'}>
+        {dashboard.movie}
+      </StatCard>
     </main>
   )
 }
